@@ -3,6 +3,8 @@ import logging
 import os
 import time
 from html.parser import HTMLParser
+from aws_lambda_powertools.utilities import parameters
+from TextToOwO import text_to_owo
 
 import boto3
 import feedparser
@@ -12,6 +14,11 @@ from botocore.client import Config
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+
+consumer_key = parameters.get_parameter("/cwoud/consumer_key")
+consumer_secret = parameters.get_parameter("/cwoud/consumer_secret")
+access_token_key = parameters.get_parameter("/cwoud/access_token_key")
+access_token_secret = parameters.get_parameter("/cwoud/access_token_secret")
 
 
 class MLStripper(HTMLParser):
@@ -34,24 +41,13 @@ def strip_tags(html):
     return s.get_data()
 
 
-api = twitter.Api(
-    **{
-        k: v
-        for k, v in json.loads(
-            boto3.client("s3", config=Config(signature_version="s3v4"))
-            .get_object(Bucket=os.environ["bucket"], Key="secrets.json")["Body"]
-            .read()
-            .decode("utf-8")
-        ).items()
-        if k
-        in {
-            "consumer_key",
-            "consumer_secret",
-            "access_token_key",
-            "access_token_secret",
-        }
-    }
-)
+
+api = twitter.Api(consumer_key=consumer_key,
+                  consumer_secret=consumer_secret,
+                  access_token_key=access_token,
+                  access_token_secret=access_token_secret)
+    
+
 
 posts_table = boto3.resource("dynamodb", region_name="us-west-2").Table(os.environ["PostsTableName"])
 
@@ -64,15 +60,16 @@ def already_posted(guid: str) -> bool:
     return "Item" in posts_table.get_item(Key={"guid": guid})
 
 
-def lambda_handler(event, context):
+def wambda_handwer(event, context):
     recency_threshold = int(os.environ['PostRecencyThreshold'])
     for entry in feedparser.parse("http://aws.amazon.com/new/feed/").entries:
         logger.info(f"Checking {entry.guid} - {entry.title}")
         if within(entry.published_parsed, minutes=recency_threshold) and not already_posted(entry.guid):
             logger.info(f"Posting {entry.guid} - {entry.title}")
             try:
+                paywoad = text_to_owo((entry.title + "\n\n" + strip_tags(entry.description))[:249])
                 api.PostUpdate(
-                    (entry.title + "\n\n" + strip_tags(entry.description))[:249]
+                    (paywoad
                     + "... "
                     + entry.link,
                     verify_status_length=False,
@@ -81,4 +78,4 @@ def lambda_handler(event, context):
                     Item={"guid": entry.guid, "title": entry.title, "link": entry.link}
                 )
             except Exception:
-                logger.exception(f"Failed to post tweet")
+                logger.exception(f"Faiwed to post tweet")

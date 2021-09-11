@@ -8,6 +8,8 @@ python-twitter = "*"
 requests = "*"
 "boto3" = "*"
 feedparser = "*"
+aws-lambda-powertools = "*"
+texttoowo = "*"
 
 [dev-packages]
 "boto3" = "*"
@@ -17,7 +19,7 @@ cfn-lint = "*"
 black = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"
 
 [pipenv]
 allow_prereleases = true

@@ -4,8 +4,8 @@ Resources:
   AwsWhatsNew:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: python3.6
-      Handler: handler.lambda_handler
+      Runtime: python3.9
+      Handler: handler.wambda_handwer
       CodeUri: ./
       Timeout: 200
       Environment:
@@ -17,7 +17,7 @@ Resources:
         CheckForNewPostsScheduledEvent:
           Type: Schedule
           Properties:
-            Schedule: rate(5 minutes)
+            Schedule: rate(1 minutes)
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref AwsNewsRecentPostsTable
@@ -25,28 +25,9 @@ Resources:
           -
             Effect: "Allow"
             Action:
-              - "kms:Decrypt"
-              - "kms:GenerateDataKey*"
-              - "kms:DescribeKey"
+              - ssm:GetParametersByPath
             Resource:
-              Fn::GetAtt:
-                - "SecretsKey"
-                - "Arn"
-          -
-            Effect: "Allow"
-            Action:
-              - "s3:GetObject"
-            Resource:
-              !Join ['', ['arn:aws:s3:::', !Ref AwsNewsBucket, '/secrets.json']]
-          -
-            Effect: "Allow"
-            Action:
-              - "s3:GetObject"
-              - "s3:PutObject"
-            Resource:
-              !Join ['', ['arn:aws:s3:::', !Ref AwsNewsBucket, '/news.rss']]
-  AwsNewsBucket:
-    Type: AWS::S3::Bucket
+              - !Sub 'arn:aws:ssm:*:*:parameter/awscwoud/*'
   AwsNewsRecentPostsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -57,21 +38,4 @@ Resources:
       KeySchema:
         - AttributeName: guid
           KeyType: HASH
-  SecretsKey:
-    Type: AWS::KMS::Key
-    Properties:
-      KeyPolicy:
-        Version: "2012-10-17"
-        Id: "key-default-1"
-        Statement:
-          -
-            Sid: "Allow administration of the key"
-            Effect: "Allow"
-            Principal: 
-              AWS: 
-                - "arn:aws:iam::099765626945:root"
-                - "arn:aws:iam::099765626945:user/andrew_dilosa"
-                - "arn:aws:iam::099765626945:user/AndrewsMacbookPro"
-            Action: "kms:*"
-            Resource: "*"
 
