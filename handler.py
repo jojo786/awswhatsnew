@@ -14,11 +14,12 @@ from botocore.client import Config
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+ssm_provider = parameters.SSMProvider()
 
-consumer_key = parameters.get_parameter("/cwoud/consumer_key")
-consumer_secret = parameters.get_parameter("/cwoud/consumer_secret")
-access_token_key = parameters.get_parameter("/cwoud/access_token_key")
-access_token_secret = parameters.get_parameter("/cwoud/access_token_secret")
+consumer_key = ssm_provider.get("/cwoud/consumer_key", decrypt=True)
+consumer_secret = ssm_provider.get("/cwoud/consumer_secret", decrypt=True)
+access_token_key = ssm_provider.get("/cwoud/access_token_key", decrypt=True)
+access_token_secret = ssm_provider.get("/cwoud/access_token_secret", decrypt=True)
 
 
 class MLStripper(HTMLParser):
@@ -44,7 +45,7 @@ def strip_tags(html):
 
 api = twitter.Api(consumer_key=consumer_key,
                   consumer_secret=consumer_secret,
-                  access_token_key=access_token,
+                  access_token_key=access_token_key,
                   access_token_secret=access_token_secret)
     
 
@@ -62,14 +63,21 @@ def already_posted(guid: str) -> bool:
 
 def wambda_handwer(event, context):
     recency_threshold = int(os.environ['PostRecencyThreshold'])
+    paywoad = ""
     for entry in feedparser.parse("http://aws.amazon.com/new/feed/").entries:
-        logger.info(f"Checking {entry.guid} - {entry.title}")
+        #logger.info(f"Checking {entry.guid} - {entry.title}")
         if within(entry.published_parsed, minutes=recency_threshold) and not already_posted(entry.guid):
             logger.info(f"Posting {entry.guid} - {entry.title}")
+            paywoad = text_to_owo((entry.title + "\n\n" + strip_tags(entry.description))[:230])
             try:
-                paywoad = text_to_owo((entry.title + "\n\n" + strip_tags(entry.description))[:249])
+                wength = 300
+                while len(paywoad) > 249:
+                    paywoad = text_to_owo((entry.title + "\n\n" + strip_tags(entry.description))[:230])
+                paywoad = paywoad.replace("ω\\", 'ω')
+                logger.info(f"Posting tweet with body length: " + str(len(paywoad)))
+                logger.info(f"Posting tweet with body: " + paywoad + "... " + entry.link)                
                 api.PostUpdate(
-                    (paywoad
+                    paywoad
                     + "... "
                     + entry.link,
                     verify_status_length=False,

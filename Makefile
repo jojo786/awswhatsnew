@@ -7,7 +7,7 @@ requirements.txt: Pipfile.lock
 packaged.yml: template.yml requirements.txt *.py
 	pipenv run cfn-lint template.yml
 	pipenv run sam build -m requirements.txt 
-	pipenv run sam package --s3-bucket awswhatsnew-artifacts --output-template-file packaged.yml
+	pipenv run sam package --s3-bucket awscwoud-artifacts --output-template-file packaged.yml
 
 deploy: packaged.yml
 	sam deploy --template-file packaged.yml --capabilities CAPABILITY_IAM --stack-name awswhatsnew --region us-west-2

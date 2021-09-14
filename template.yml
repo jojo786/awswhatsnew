@@ -10,14 +10,13 @@ Resources:
       Timeout: 200
       Environment:
         Variables:
-          bucket: !Ref AwsNewsBucket
           PostsTableName: !Ref AwsNewsRecentPostsTable
-          PostRecencyThreshold: "7"
+          PostRecencyThreshold: "7000"
       Events:
         CheckForNewPostsScheduledEvent:
           Type: Schedule
           Properties:
-            Schedule: rate(1 minutes)
+            Schedule: rate(1 minute)
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref AwsNewsRecentPostsTable
@@ -25,9 +24,11 @@ Resources:
           -
             Effect: "Allow"
             Action:
-              - ssm:GetParametersByPath
+              - ssm:GetParameters
+              - ssm:GetParameter
+
             Resource:
-              - !Sub 'arn:aws:ssm:*:*:parameter/awscwoud/*'
+              - '*'
   AwsNewsRecentPostsTable:
     Type: AWS::DynamoDB::Table
     Properties:
