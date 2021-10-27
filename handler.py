@@ -2,15 +2,14 @@ import json
 import logging
 import os
 import time
-from html.parser import HTMLParser
-from aws_lambda_powertools.utilities import parameters
-from TextToOwO import text_to_owo
-
 import boto3
 import feedparser
 import requests
 import twitter
 from botocore.client import Config
+from html.parser import HTMLParser
+from aws_lambda_powertools.utilities import parameters
+from TextToOwO import text_to_owo
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)

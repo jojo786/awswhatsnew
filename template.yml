@@ -1,5 +1,10 @@
 AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Tags:
+      project: "awscwoud shitposting"
 Resources:
   AwsWhatsNew:
     Type: AWS::Serverless::Function
@@ -17,6 +22,8 @@ Resources:
           Type: Schedule
           Properties:
             Schedule: rate(1 minute)
+      Architectures:
+        - arm64
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref AwsNewsRecentPostsTable
@@ -26,9 +33,10 @@ Resources:
             Action:
               - ssm:GetParameters
               - ssm:GetParameter
-
+              - ssm:GetParametersByPath
             Resource:
               - '*'
+              - 'arn:aws:ssm:::parameter/cwoud/*'
   AwsNewsRecentPostsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -39,4 +47,6 @@ Resources:
       KeySchema:
         - AttributeName: guid
           KeyType: HASH
-
+      Tags:
+        - Value: "awscwoud shitposting"
+          Key: "project"
