@@ -1,0 +1,5 @@
+feedparser
+requests
+python-twitter
+aws_lambda_powertools
+slack_sdk

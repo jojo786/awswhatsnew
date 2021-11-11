@@ -1,7 +1,6 @@
 *.zip
 *.pyc
 packaged.yml
-requirements.txt
 .aws-sam/
 .mypy_cache/
 .venv
