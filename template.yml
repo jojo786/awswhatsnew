@@ -4,13 +4,13 @@ Transform: AWS::Serverless-2016-10-31
 Globals:
   Function:
     Tags:
-      project: "awscwoud shitposting"
+      project: "AWS Whats New"
 Resources:
   AwsWhatsNew:
     Type: AWS::Serverless::Function
     Properties:
-      Runtime: python3.9
-      Handler: handler.wambda_handwer
+      Runtime: python3.8
+      Handler: handler.lambda_handler
       CodeUri: ./
       Timeout: 200
       Environment:
@@ -23,7 +23,7 @@ Resources:
           Properties:
             Schedule: rate(1 minute)
       Architectures:
-        - arm64
+        - x86_64
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref AwsNewsRecentPostsTable
@@ -36,7 +36,7 @@ Resources:
               - ssm:GetParametersByPath
             Resource:
               - '*'
-              - 'arn:aws:ssm:::parameter/cwoud/*'
+              - 'arn:aws:ssm:::parameter/whatsnew/*'
   AwsNewsRecentPostsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -48,5 +48,5 @@ Resources:
         - AttributeName: guid
           KeyType: HASH
       Tags:
-        - Value: "awscwoud shitposting"
-          Key: "project"
+        - Value: "AWS Whats New"
+          Key: "app"
