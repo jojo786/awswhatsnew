@@ -16,13 +16,13 @@ Resources:
       Environment:
         Variables:
           PostsTableName: !Ref AwsNewsRecentPostsTable
-          PostRecencyThreshold: "70000"
+          PostRecencyThreshold: "7000"
       ReservedConcurrentExecutions: 1
       Events:
         CheckForNewPostsScheduledEvent:
           Type: Schedule
           Properties:
-            Schedule: rate(1 minute)
+            Schedule: rate(1 hour)
       Architectures:
         - x86_64
       Policies:
