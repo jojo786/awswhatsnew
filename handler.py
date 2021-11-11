@@ -83,11 +83,11 @@ def lambda_handler(event, context):
         if ("Cape Town" in entry.title) or ("Cape Town" in entry.description):
             if within(entry.published_parsed, minutes=recency_threshold) and not already_posted(entry.guid):
                 logger.info(f"Posting {entry.guid} - {entry.title}")
-                payload = entry.title + "\n\n" + strip_tags(entry.description)
+                payload = entry.title + "\n\n" #+ strip_tags(entry.description)
                 try:
                     length = 300
                     while len(payload) > 249:
-                        payload = entry.title + "\n\n" + strip_tags(entry.description)
+                        payload = entry.title + "\n\n" #+ strip_tags(entry.description)
                     logger.info(f"Posting tweet with body length: " + str(len(payload)))
                     logger.info(f"Posting tweet with body: " + payload + "... " + entry.link)                
                     post_to_twitter(payload, entry)
