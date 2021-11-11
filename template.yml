@@ -16,7 +16,8 @@ Resources:
       Environment:
         Variables:
           PostsTableName: !Ref AwsNewsRecentPostsTable
-          PostRecencyThreshold: "7000"
+          PostRecencyThreshold: "70000"
+      ReservedConcurrentExecutions: 1
       Events:
         CheckForNewPostsScheduledEvent:
           Type: Schedule
