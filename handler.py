@@ -25,8 +25,7 @@ api = twitter.Api(consumer_key=consumer_key,
                   access_token_key=access_token_key,
                   access_token_secret=access_token_secret)
     
-
-bot_user_oauth_token = ssm_provider.get("/whatsnew/slack/consumer_key", decrypt=True)
+bot_user_oauth_token = ssm_provider.get("/whatsnew/slack/bot_user_oauth_token", decrypt=True)
 bot_channel_id = ssm_provider.get("/whatsnew/slack/channel_id", decrypt=True)
 
 client = WebClient(token=bot_user_oauth_token)
