@@ -80,8 +80,8 @@ def lambda_handler(event, context):
     payload = ""
     for entry in feedparser.parse("http://aws.amazon.com/new/feed/").entries:
         logger.info(f"Checking {entry.guid} - {entry.title}")
-        if within(entry.published_parsed, minutes=recency_threshold) and not already_posted(entry.guid):
-            if ("Cape Town" in entry.title) or ("Cape Town" in entry.description):
+        if ("Cape Town" in entry.title) or ("Cape Town" in entry.description):
+            if within(entry.published_parsed, minutes=recency_threshold) and not already_posted(entry.guid):
                 logger.info(f"Posting {entry.guid} - {entry.title}")
                 payload = entry.title + "\n\n" + strip_tags(entry.description)
                 try:
