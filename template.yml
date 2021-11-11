@@ -21,7 +21,7 @@ Resources:
         CheckForNewPostsScheduledEvent:
           Type: Schedule
           Properties:
-            Schedule: rate(1 minute)
+            Schedule: rate(1 hour)
       Architectures:
         - x86_64
       Policies:
