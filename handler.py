@@ -50,7 +50,7 @@ def strip_tags(html):
     return s.get_data()
 
 
-posts_table = boto3.resource("dynamodb", region_name="us-west-2").Table(os.environ["PostsTableName"])
+posts_table = boto3.resource("dynamodb", region_name="af-south-1").Table(os.environ["PostsTableName"])
 
 def within(t: time.struct_time, minutes: int) -> bool:
     return abs(time.mktime(time.gmtime()) - time.mktime(t)) <= (minutes * 60)
