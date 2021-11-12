@@ -70,9 +70,7 @@ def post_to_twitter(payload, entry):
 def post_to_slack(payload, entry):
     response = client.chat_postMessage(
                     channel=bot_channel_id,
-                    text=payload
-                    + "... "
-                    + entry.link
+                    text=payload + entry.link
                 )
 
 def lambda_handler(event, context):
@@ -88,8 +86,8 @@ def lambda_handler(event, context):
                     #length = 300
                     while len(payload) > 249:
                         payload = entry.title + "\n\n" #+ strip_tags(entry.description)
-                    logger.info(f"Posting tweet with body length: " + str(len(payload)))
-                    logger.info(f"Posting tweet with body: " + payload + "... " + entry.link)                
+                    logger.info(f"Posting with body length: " + str(len(payload)))
+                    logger.info(f"Posting with body: " + payload + "... " + entry.link)                
                     post_to_twitter(payload, entry)
                     post_to_slack(payload, entry)
                     posts_table.put_item(
