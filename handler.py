@@ -70,7 +70,9 @@ def post_to_twitter(payload, entry):
 def post_to_slack(payload, entry):
     response = client.chat_postMessage(
                     channel=bot_channel_id,
-                    text=payload + entry.link
+                    text=payload + "\n " + entry.link,
+                    icon_emoji=":earth_africa:",
+                    username="AWS Whats New - Africa"
                 )
 
 def lambda_handler(event, context):
