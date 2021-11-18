@@ -72,7 +72,7 @@ def post_to_slack(payload, entry):
                     channel=bot_channel_id,
                     text=payload + "\n " + entry.link,
                     icon_emoji=":earth_africa:",
-                    username="AWS Whats New - Africa"
+                    username="AWS Whats New in Africa"
                 )
 
 def lambda_handler(event, context):

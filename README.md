@@ -5,7 +5,7 @@ It posts to [AWS Community Africa](https://awscommunityafrica.slack.com/) using 
 
 ## Details
 
-- to create a Slack app, follow the four steps listed under [Add a Both User](https://slack.com/help/articles/115005265703-Create-a-bot-for-your-workspace)
+- to create a Slack app, follow the four steps listed under [Add a Bot User](https://slack.com/help/articles/115005265703-Create-a-bot-for-your-workspace)
 - Get your Bot User OAuth Token from the [Slack APP API](https://api.slack.com/apps/) under OAuth and Permissions, then add it to SSM 
 - reads Slack credentials from AWS SSM.
 - sets Slack icon emoji - needs [chat:write.customize](https://api.slack.com/scopes/chat:write.customize) OAuth Scope
