@@ -3,7 +3,7 @@ name: Pipeline
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
       - 'feature**'
   delete:
     branches:
