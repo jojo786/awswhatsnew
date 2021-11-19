@@ -1,5 +1,8 @@
 # awswhatsnew
 
+[Pipeline workflow](https://github.com/jojo786/awswhatsnew/actions/workflows/pipeline.yaml/badge.svg)
+
+
 Publish AWS News, filtered for the Africa (Cape Town) region, to Slack (and Twitter) by reading the official RSS feed with AWS Lambda. 
 It posts to [AWS Community Africa](https://awscommunityafrica.slack.com/) using Slack App `AWSWhatsNew`.
 
