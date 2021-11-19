@@ -2,7 +2,6 @@
 
 ![Pipeline workflow](https://github.com/jojo786/awswhatsnew/actions/workflows/pipeline.yaml/badge.svg)
 
-
 Publish AWS News, filtered for the Africa (Cape Town) region, to Slack (and Twitter) by reading the official RSS feed with AWS Lambda. 
 It posts to [AWS Community Africa](https://awscommunityafrica.slack.com/) using Slack App `AWSWhatsNew`.
 
@@ -16,3 +15,4 @@ It posts to [AWS Community Africa](https://awscommunityafrica.slack.com/) using 
 - Infrastructure defined in CloudFormation in [`template.yml`](template.yml)
 - Local testing via Docker and [SAM Local](http://docs.aws.amazon.com/lambda/latest/dg/test-sam-local.html#sam-cli-simple-app)
 - Packaging and Deployment done via SAM CLI, using `sam build --use-container` (due to this [bug](https://github.com/aws/aws-sam-cli/issues/2291)) and `sam deploy`
+- Uses GitHub Actions workflow CI/CD pipeline for deploying to dev and prod, generated using [SAM Pipelines](https://aws.amazon.com/blogs/compute/introducing-aws-sam-pipelines-automatically-generate-deployment-pipelines-for-serverless-applications/)
