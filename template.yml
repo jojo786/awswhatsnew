@@ -5,6 +5,21 @@ Globals:
   Function:
     Tags:
       project: "AWS Whats New"
+
+Parameters:
+    Stage:
+      Type: String
+      AllowedValues:
+        - dev
+        - prod
+
+Mappings:
+  TokenMappings:
+    dev:
+      Token: token-dev
+    prod:
+      Token: token-prod
+
 Resources:
   AwsWhatsNew:
     Type: AWS::Serverless::Function
@@ -17,6 +32,7 @@ Resources:
         Variables:
           PostsTableName: !Ref AwsNewsRecentPostsTable
           PostRecencyThreshold: "7000"
+          Token: !FindInMap [TokenMappings, !Ref Stage, Token]
       ReservedConcurrentExecutions: 1
       Events:
         CheckForNewPostsScheduledEvent:
