@@ -15,18 +15,23 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 ssm_provider = parameters.SSMProvider()
 
-consumer_key = ssm_provider.get("/whatsnew/twitter/consumer_key", decrypt=True)
-consumer_secret = ssm_provider.get("/whatsnew/twitter/consumer_secret", decrypt=True)
-access_token_key = ssm_provider.get("/whatsnew/twitter/access_token_key", decrypt=True)
-access_token_secret = ssm_provider.get("/whatsnew/twitter/access_token_secret", decrypt=True)
+stage = os.environ['stage']
+print("STAGE: " + stage)
+
+consumer_key = ssm_provider.get("/whatsnew/twitter/{stage}/consumer_key", decrypt=True)
+consumer_secret = ssm_provider.get("/whatsnew/twitter/{stage}/consumer_secret", decrypt=True)
+access_token_key = ssm_provider.get("/whatsnew/twitter/{stage}/access_token_key", decrypt=True)
+access_token_secret = ssm_provider.get("/whatsnew/twitter/{stage}/access_token_secret", decrypt=True)
+
+print("consumer_key: " + consumer_key)
 
 api = twitter.Api(consumer_key=consumer_key,
                   consumer_secret=consumer_secret,
                   access_token_key=access_token_key,
                   access_token_secret=access_token_secret)
     
-bot_user_oauth_token = ssm_provider.get("/whatsnew/slack/bot_user_oauth_token", decrypt=True)
-bot_channel_id = ssm_provider.get("/whatsnew/slack/channel_id", decrypt=True)
+bot_user_oauth_token = ssm_provider.get("/whatsnew/slack/{stage}/bot_user_oauth_token", decrypt=True)
+bot_channel_id = ssm_provider.get("/whatsnew/slack/{stage}/channel_id", decrypt=True)
 
 client = WebClient(token=bot_user_oauth_token)
 

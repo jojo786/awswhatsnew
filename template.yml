@@ -7,18 +7,18 @@ Globals:
       project: "AWS Whats New"
 
 Parameters:
-    Stage:
+    StageEnv:
       Type: String
       AllowedValues:
         - dev
         - prod
 
 Mappings:
-  TokenMappings:
+  StageMappings:
     dev:
-      Token: token-dev
+      stage: dev
     prod:
-      Token: token-prod
+      stage: prod
 
 Resources:
   AwsWhatsNew:
@@ -32,7 +32,7 @@ Resources:
         Variables:
           PostsTableName: !Ref AwsNewsRecentPostsTable
           PostRecencyThreshold: "7000"
-          Token: !FindInMap [TokenMappings, !Ref Stage, Token]
+          Token: !FindInMap [StageMappings, !Ref StageEnv, stage]
       ReservedConcurrentExecutions: 1
       Events:
         CheckForNewPostsScheduledEvent:
