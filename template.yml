@@ -32,7 +32,7 @@ Resources:
         Variables:
           PostsTableName: !Ref AwsNewsRecentPostsTable
           PostRecencyThreshold: "7000"
-          Token: !FindInMap [StageMappings, !Ref StageEnv, stage]
+          stage: !FindInMap [StageMappings, !Ref StageEnv, stage]
       ReservedConcurrentExecutions: 1
       Events:
         CheckForNewPostsScheduledEvent:
