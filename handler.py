@@ -16,14 +16,12 @@ logger.setLevel(logging.INFO)
 ssm_provider = parameters.SSMProvider()
 
 stage = os.environ['stage']
-print("STAGE: " + stage)
+logger.info(f"STAGE: " + stage)
 
 consumer_key = ssm_provider.get("/whatsnew/twitter/"+stage+"/consumer_key", decrypt=True)
 consumer_secret = ssm_provider.get("/whatsnew/twitter/"+stage+"/consumer_secret", decrypt=True)
 access_token_key = ssm_provider.get("/whatsnew/twitter/"+stage+"/access_token_key", decrypt=True)
 access_token_secret = ssm_provider.get("/whatsnew/twitter/"+stage+"/access_token_secret", decrypt=True)
-
-print("consumer_key: " + consumer_key)
 
 api = twitter.Api(consumer_key=consumer_key,
                   consumer_secret=consumer_secret,
@@ -96,7 +94,7 @@ def lambda_handler(event, context):
                     logger.info(f"Posting with body length: " + str(len(payload)))
                     logger.info(f"Posting with body: " + payload + "... " + entry.link)                
                     post_to_slack(payload, entry)
-                    post_to_twitter(payload, entry)
+                    #post_to_twitter(payload, entry)
                     posts_table.put_item(
                         Item={"guid": entry.guid, "title": entry.title, "link": entry.link}
                     )
