@@ -94,7 +94,7 @@ def lambda_handler(event, context):
                     logger.info(f"Posting with body length: " + str(len(payload)))
                     logger.info(f"Posting with body: " + payload + "... " + entry.link)                
                     post_to_slack(payload, entry)
-                    #post_to_twitter(payload, entry)
+                     #post_to_twitter(payload, entry)
                     posts_table.put_item(
                         Item={"guid": entry.guid, "title": entry.title, "link": entry.link}
                     )
