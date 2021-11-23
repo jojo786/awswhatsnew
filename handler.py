@@ -20,7 +20,7 @@ print("STAGE: " + stage)
 
 consumer_key = ssm_provider.get("/whatsnew/twitter/"+stage+"/consumer_key", decrypt=True)
 consumer_secret = ssm_provider.get("/whatsnew/twitter/"+stage+"/consumer_secret", decrypt=True)
-access_token_key = ssm_provider.get("/whatsnew/twitter/"+stage+"s/access_token_key", decrypt=True)
+access_token_key = ssm_provider.get("/whatsnew/twitter/"+stage+"/access_token_key", decrypt=True)
 access_token_secret = ssm_provider.get("/whatsnew/twitter/"+stage+"/access_token_secret", decrypt=True)
 
 print("consumer_key: " + consumer_key)
