@@ -70,6 +70,14 @@ def post_to_twitter(payload, entry):
         verify_status_length=False,
     )
 
+def in_feed_body(link):
+    post_body = requests.get(link)
+    post_body_content = str(post_body.content).casefold()
+    if ("Cape Town".casefold() in post_body_content) or ("all regions".casefold() in post_body_content) or ("all commercial AWS Regions".casefold() in post_body_content) or ("all AWS Regions".casefold() in post_body_content):
+        return True
+    else:
+        return False
+
 def post_to_slack(payload, entry):
     response = client.chat_postMessage(
                     channel=bot_channel_id,
@@ -83,7 +91,7 @@ def lambda_handler(event, context):
     payload = ""
     for entry in feedparser.parse("http://aws.amazon.com/new/feed/").entries:
         logger.info(f"Checking {entry.guid} - {entry.title}")
-        if ("Cape Town" in entry.title) or ("Cape Town" in entry.description):
+        if ("Cape Town" in entry.title) or ("Cape Town" in entry.description) or (in_feed_body(entry.link)):
             if within(entry.published_parsed, minutes=recency_threshold) and not already_posted(entry.guid):
                 logger.info(f"Posting {entry.guid} - {entry.title}")
                 payload = entry.title + "\n\n" #+ strip_tags(entry.description)
