@@ -73,7 +73,7 @@ def post_to_twitter(payload, entry):
 def in_feed_body(link):
     post_body = requests.get(link)
     post_body_content = str(post_body.content).casefold()
-    if ("Cape Town".casefold() in post_body_content) or ("all regions".casefold() in post_body_content) or ("all commercial AWS Regions".casefold() in post_body_content) or ("all AWS Regions".casefold() in post_body_content):
+    if ("Cape Town".casefold() in post_body_content) or ("all commercial AWS Regions".casefold() in post_body_content) or ("all AWS Regions".casefold() in post_body_content):
         return True
     else:
         return False
