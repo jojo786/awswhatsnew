@@ -5,7 +5,7 @@ Globals:
   Function:
     Tags:
       project: "AWS Whats New"
-    Runtime: python3.10
+    Runtime: python3.11
     Architectures:
       - arm64
 
