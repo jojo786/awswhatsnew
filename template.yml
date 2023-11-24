@@ -11,7 +11,7 @@ Globals:
     LoggingConfig:
       LogGroup: !Sub /aws/lambda/${AWS::StackName}
       LogFormat: JSON
-      
+
 Parameters:
     StageEnv:
       Type: String
@@ -39,13 +39,13 @@ Resources:
           PostRecencyThreshold: "7000"
           stage: !FindInMap [StageMappings, !Ref StageEnv, stage]
       ReservedConcurrentExecutions: 1
-      Events:
-        CheckForNewPostsScheduledEvent:
-          Type: ScheduleV2
-          Properties:
-            Description: run every hour
-            ScheduleExpression: rate(1 hours) 
-            ScheduleExpressionTimezone: GMT+2
+      # Events:
+      #   CheckForNewPostsScheduledEvent:
+      #     Type: ScheduleV2
+      #     Properties:
+      #       Description: run every hour
+      #       ScheduleExpression: rate(1 hours) 
+      #       ScheduleExpressionTimezone: GMT+2
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref AwsNewsRecentPostsTable
