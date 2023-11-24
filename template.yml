@@ -8,7 +8,10 @@ Globals:
     Runtime: python3.11
     Architectures:
       - arm64
-
+    LoggingConfig:
+      LogGroup: !Sub /aws/lambda/${AWS::StackName}
+      LogFormat: JSON
+      
 Parameters:
     StageEnv:
       Type: String
@@ -38,9 +41,11 @@ Resources:
       ReservedConcurrentExecutions: 1
       Events:
         CheckForNewPostsScheduledEvent:
-          Type: Schedule
+          Type: ScheduleV2
           Properties:
-            Schedule: rate(1 hour)
+            Description: run every hour
+            ScheduleExpression: rate(1 hours) 
+            ScheduleExpressionTimezone: GMT+2
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref AwsNewsRecentPostsTable
