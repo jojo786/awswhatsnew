@@ -43,6 +43,7 @@ Resources:
         CheckForNewPostsScheduledEvent:
           Type: ScheduleV2
           Properties:
+            OmitName: true #required so that the name is generated uniquely, do it Dev and Prod do not overlap
             Description: run every hour
             ScheduleExpression: rate(1 hours) 
             ScheduleExpressionTimezone: GMT+2
